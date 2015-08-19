@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	 
+	 <!-- ****************配置employeed************** -->
+	 <!-- 注入sessionfactory -->
+    <bean id="employeeDao" class="com.zrui.ssh.dao.EmployeeDao">
+	  <property name="sessionfactory" ref="sessionFactory"></property> 
+	 </bean> 
+	
+	<!-- 配置service -->
+	
+	<bean id="employeeSerice" class="com.zrui.ssh.service.EmployeeSerice">
+		<property name="employeeDao" ref="employeeDao"></property>
+	</bean>
+	<!-- 配置Action -->
+	<bean id="employeeAction" 
+		class="com.zrui.ssh.actions.EmployeeAction" scope="prototype">
+		<property name="empserice" ref="employeeSerice"></property>
+		<property name="departmentService" ref="departmentService"></property>
+	</bean>
+	
+	<!-- ***********配置Department************************* -->
+	<!-- 配置Dao -->
+	<bean id="departmentDao" class="com.zrui.ssh.dao.DepartmentDao">
+		<property name="sessionfactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置Service -->
+	<bean id="departmentService" class="com.zrui.ssh.service.DepartmentService"> 
+		<property name="departmentdao" ref="departmentDao"></property>
+	</bean>
+
+
+</beans>

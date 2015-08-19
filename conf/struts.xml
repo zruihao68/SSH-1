@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+    <package name="default" namespace="/" extends="json-default">
+    	
+    	<!-- 定义拦截器栈 配置prepare拦截器的alwaysInvkePrepare参数的值为false -->
+    	<interceptors>
+    		<interceptor-stack name="zruiSSHStack">
+    			<interceptor-ref name="paramsPrepareParamsStack">
+    			<param name="prepare.alwaysInvkePrepare">false</param>
+    			</interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    
+       <!-- 使用新的拦截器栈 -->
+       
+       <default-interceptor-ref name="zruiSSHStack" />
+		<action name="emp-*" class="employeeAction" method="{1}">
+			<result name="list">/emp-list.jsp</result>
+			
+			<!--直接删除 -->
+			<result name="delete" type="redirectAction">
+				<param name="actionName">emp-list</param>
+			</result>
+			<!-- ajax 删除 返回值 -->
+			<result type="stream" name="ajax-success">
+      		    <param name="contentType">text/html</param>
+        		<param name="inputName">inputStream</param>
+   			 </result>
+   			 
+			
+			<result name="input">/emp-input.jsp</result>
+			
+			<result name="save" type="redirectAction">
+				<param name="actionName">emp-list</param>
+			</result>
+			
+			<result name="easyUI" type="json">
+				<param name="root">dataMap</param>
+			</result>
+
+		</action>
+    </package>
+
+  
+
+</struts>
